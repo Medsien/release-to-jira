@@ -23,6 +23,7 @@ runs:
     - uses: actions/checkout@v3
     - name: Get or create Github release
       shell: bash
+      working-directory: ${{ github.action_path }}
       env:
         GH_TOKEN: ${{ github.token }}
       run: |
@@ -38,11 +39,18 @@ runs:
           --jq .body > notes.md
     - name: Debug output
       shell: bash
+      working-directory: ${{ github.action_path }}
       run: cat notes.md
     - name: Env vars
       shell: bash
+      working-directory: ${{ github.action_path }}
       run: env
     - name: Update JIRA
       shell: bash
+      working-directory: ${{ github.action_path }}
+      env:
+        INPUT_JIRA_SERVER: ${{ inputs.jira_server }}
+        INPUT_JIRA_PROJECT: ${{ inputs.jira_project }}
+        INPUT_JIRA_USER: ${{ inputs.jira_user }}
+        INPUT_JIRA_TOKEN: ${{ inputs.jira_token }}
       run: python ./src/main.py
-      working-directory: ${{github.action_path}}
