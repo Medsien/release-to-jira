@@ -26,18 +26,16 @@ runs:
       env:
         GH_TOKEN: ${{ github.token }}
       run: |
-        (
-          gh api \
-            --method GET /repos/${{ github.repository }}/releases/tags/${{ github.ref_name }} \
-            --jq .body \
-          || \
-          gh api \
-            --method POST /repos/${{ github.repository }}/releases \
-              -f tag_name='${{ github.ref_name }}' \
-              -f name='${{ github.ref_name }}' \
-              -F generate_release_notes=true \
-            --jq .body \
-        ) > notes.md
+        gh api \
+          --method GET /repos/${{ github.repository }}/releases/tags/${{ github.ref_name }} \
+          --jq .body > notes.md \
+        || \
+        gh api \
+          --method POST /repos/${{ github.repository }}/releases \
+            -f tag_name='${{ github.ref_name }}' \
+            -f name='${{ github.ref_name }}' \
+            -F generate_release_notes=true \
+          --jq .body > notes.md
     - name: Debug output
       shell: bash
       run: cat notes.md
