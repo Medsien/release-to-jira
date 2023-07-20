@@ -37,14 +37,6 @@ runs:
             -f name='${{ github.ref_name }}' \
             -F generate_release_notes=true \
           --jq .body > notes.md
-    - name: Debug output
-      shell: bash
-      working-directory: ${{ github.action_path }}
-      run: cat notes.md
-    - name: Env vars
-      shell: bash
-      working-directory: ${{ github.action_path }}
-      run: env
     - name: Update JIRA
       shell: bash
       working-directory: ${{ github.action_path }}
