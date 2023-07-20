@@ -38,6 +38,12 @@ runs:
               -F generate_release_notes=true \
             --jq .body \
         ) > notes.md
+    - name: Debug output
+      shell: bash
+      run: cat notes.md
+    - name: Env vars
+      shell: bash
+      run: env
     - name: Update JIRA
       shell: bash
       run: python ./src/main.py
