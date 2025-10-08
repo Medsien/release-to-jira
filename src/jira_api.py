@@ -31,13 +31,20 @@ def get_project_id():
     return get("")["id"]
 
 
+def mark_version_as_released(version_id):
+    response = put(f'version/{version_id}', {"released": True})
+    response.raise_for_status()
+    return response.json()
+
+
 def get_or_create_release(release_name):
     result = get("version", {"query": release_name})
     if result["total"] == 0:
-        return post(
+        version = post(
             "version",
             {"name": release_name, "projectId": get_project_id()},
         ).json()
+        return version
     elif result["total"] > 1:
         raise Exception("Found multiple releases with the same name.")
     else:

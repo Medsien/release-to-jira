@@ -17,6 +17,10 @@ inputs:
   jira_token:
     description: JIRA user token
     required: true
+  jira_mark_released:
+    description: 'Mark created JIRA releases as released (true/false)'
+    required: false
+    default: 'false'
 runs:
   using: composite
   steps:
@@ -45,4 +49,5 @@ runs:
         INPUT_JIRA_PROJECT: ${{ inputs.jira_project }}
         INPUT_JIRA_USER: ${{ inputs.jira_user }}
         INPUT_JIRA_TOKEN: ${{ inputs.jira_token }}
+        INPUT_JIRA_MARK_RELEASED: ${{ inputs.jira_mark_released }}
       run: python ./src/main.py
